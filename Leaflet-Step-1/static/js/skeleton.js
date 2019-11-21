@@ -1,13 +1,9 @@
-// Load the geojson earthquake data for the past week
-var geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
-
-// Define a variable called geojson
-var geojson;
+// Load the geojson data
+var geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
 
 // Create a function for the marker size
 function markerSize(magnitude) {
-    // Initial scaling of each marker in regards to each earthquake's magnitude
-    return magnitude * 10000;
+    return magnitude * 10;
 }
 
 // Create a function to determine each marker color
@@ -40,7 +36,6 @@ d3.json(geoData, function(data) {
 
     // Once the response is recieved, send it to the createFeatures function
     createFeatures(data.features);
-
 });
 
 // Create the createFeatures function
@@ -49,33 +44,19 @@ function createFeatures(earthquakeData) {
     // Define a function we want to run once for each feature in the features array
     // Give each feature a popup describing the place and time of the earthquake
     function onEachFeature(feature, layer) {
-
-        // Create the popups
-        layer.bindPopup("<h3>" + feature.properties.place +
+      layer.bindPopup("<h3>" + feature.properties.place +
         "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
-
-    }
-
-    // Define a function to tell the program what what type of marker we want to use
-    function pointToLayer(feature, latlng) {
-        return L.circle(latlng, {
-            color: markerColor(feature.properties.mag),
-            fillColor: markerColor(feature.properties.mag),
-            fillOpacity: 0.75,
-            radius: markerSize(feature.properties.mag)
-        });
     }
   
     // Create a GeoJSON layer containing the features array on the earthquakeData object
     // Run the onEachFeature function once for each piece of data in the array
     var earthquakes = L.geoJSON(earthquakeData, {
-        pointToLayer: pointToLayer,
-        onEachFeature: onEachFeature
+      onEachFeature: onEachFeature
     });
   
     // Sending our earthquakes layer to the createMap function
     createMap(earthquakes);
-}
+  }
 
 // Create a function to create a map
 function createMap(earthquakes) {
@@ -95,7 +76,7 @@ function createMap(earthquakes) {
 
     // Create an overlayMaps object to hold the earthquakes layer
     var overlayMaps = {
-        "Earthquakes": earthquakes
+        "Earthquake": earthquakes
     };
 
     // Create the map object with options
@@ -109,37 +90,4 @@ function createMap(earthquakes) {
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
     }).addTo(myMap);
-
-    // Set geojson equal to choropleth
-    geojson = L.choropleth(earthquakes).addTo(myMap);
-
-    // Create a legend
-
-    // Pre-define the placement of the legend on the map
-    var legend = L.control({position: "bottomright"});
-
-    legend.onAdd = function() {
-
-        // Creates a new div tag with a class that we call "info"
-        var div = L.DomUtil.create("div", "info legend");
-
-        // Create an array of the labels we will use on our legend
-        var categories = ["0-1", "1-2", "2-3", "3-4", "4-5", "5+"];
-        var labels = [];
-
-        // Create an array that will store the colors we will use
-        var colors = ["lime", "green", "yellow", "orange", "red", "maroon"];
-
-        // Loop through our density intervals and generate a label with a colored square for each interval
-        for (var i = 0; i < categories.length; i++) {
-            div.innerHTML +=
-            labels.push(
-                '<i style="background:' + colors[i] + '"></i>' +
-                (categories[i] ? categories[i] : '+'));
-        }
-
-        div.innerHTML = labels.join('<br>');
-        return div;
-    };
-    legend.addTo(myMap);
 }
