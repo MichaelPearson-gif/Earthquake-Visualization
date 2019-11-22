@@ -1,8 +1,15 @@
 // Load the geojson earthquake data for the past week
 var geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
-// Define a variable called geojson
-var geojson;
+// Create a getColors function
+function getColors(magnitude) {
+    return magnitude > 5 ? "#bd0026" :
+           magnitude > 4 ? "#f03b20" :
+           magnitude > 3 ? "#fd8d3c" :
+           magnitude > 2 ? "#feb24c" :
+           magnitude > 1 ? "#fed976" :
+                           "#ffffb2";  
+}
 
 // Create a function for the marker size
 function markerSize(magnitude) {
@@ -15,22 +22,22 @@ function markerColor(magnitude) {
 
     // Use conditionals to determine which color
     if (magnitude > 5) {
-        return "maroon";
+        return "#bd0026";
     }
     else if (magnitude > 4) {
-        return "red";
+        return "#f03b20";
     }
     else if (magnitude > 3) {
-        return "orange";
+        return "#fd8d3c";
     }
     else if (magnitude > 2) {
-        return "yellow";
+        return "#feb24c";
     }
     else if (magnitude > 1) {
-        return "green";
+        return "#fed976";
     }
     else {
-        return "lime";
+        return "#ffffb2";
     }
 
 }
@@ -110,9 +117,6 @@ function createMap(earthquakes) {
         collapsed: false
     }).addTo(myMap);
 
-    // Set geojson equal to choropleth
-    geojson = L.choropleth(earthquakes).addTo(myMap);
-
     // Create a legend
 
     // Pre-define the placement of the legend on the map
@@ -124,21 +128,16 @@ function createMap(earthquakes) {
         var div = L.DomUtil.create("div", "info legend");
 
         // Create an array of the labels we will use on our legend
-        var categories = ["0-1", "1-2", "2-3", "3-4", "4-5", "5+"];
+        var categories = [0, 1, 2, 3, 4, 5];
         var labels = [];
-
-        // Create an array that will store the colors we will use
-        var colors = ["lime", "green", "yellow", "orange", "red", "maroon"];
 
         // Loop through our density intervals and generate a label with a colored square for each interval
         for (var i = 0; i < categories.length; i++) {
             div.innerHTML +=
-            labels.push(
-                '<i style="background:' + colors[i] + '"></i>' +
-                (categories[i] ? categories[i] : '+'));
+                '<i style="background:' + getColors(categories[i] + 1) + '"></i> ' +
+                categories[i] + (categories[i + 1] ? '&ndash;' + categories[i + 1] + '<br>' : '+');
         }
 
-        div.innerHTML = labels.join('<br>');
         return div;
     };
     legend.addTo(myMap);
