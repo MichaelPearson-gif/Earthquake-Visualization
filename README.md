@@ -23,3 +23,6 @@ Once you have the repository cloned, then click on the folder of the name of the
 * CSS
 * [Leaflet](https://leafletjs.com/)
 * [D3](https://d3js.org/)
+
+# Authors
+View the entire list of [contributors](https://github.com/MichaelPearson-gif/Earthquake-Visualization/graphs/contributors) in this project as well as each individual commit history.
