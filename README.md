@@ -18,9 +18,9 @@ Follow this step-by-step process in order to make a copy of this project on your
 Once you have the repository cloned, then click on the folder of the name of the repository (None of this is in GitBash) and click on the index.html file, which will look like the chrome browser logo. This will automatically open your browser to your local machine and you will be running the application and see a geographical maps with all colored dots that represent all the earthquakes around the world that occured exactly one week from when you ran this application.
 
 # Built With
-* HTML
-* JavaScript
-* CSS
+* [HTML](https://en.wikipedia.org/wiki/HTML)
+* [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
+* [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets)
 * [Leaflet](https://leafletjs.com/)
 * [D3](https://d3js.org/)
 
