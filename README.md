@@ -21,5 +21,5 @@ Once you have the repository cloned, then click on the folder of the name of the
 * HTML
 * JavaScript
 * CSS
-* Leaflet
-* D3
+* [Leaflet](https://leafletjs.com/)
+* [D3](https://d3js.org/)
